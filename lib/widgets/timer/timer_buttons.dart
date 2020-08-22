@@ -60,18 +60,21 @@ class _TimerButtonsState extends State<TimerButtons> {
     );
   }
 
-  RaisedButton createButtonn(
+  Widget createButtonn(
       {BuildContext context, Icon icon, String text, Function onPressed}) {
-    return RaisedButton(
-      color: Theme.of(context).accentColor,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10))),
-      child: Row(
-        children: <Widget>[icon, Text(text)],
+    return Container(
+      height: 45,
+      child: RaisedButton(
+        color: Theme.of(context).accentColor,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20))),
+        child: Row(
+          children: <Widget>[icon, Text(text, style: TextStyle(fontSize: 20),)],
+        ),
+        onPressed: () {
+          onPressed();
+        },
       ),
-      onPressed: () {
-        onPressed();
-      },
     );
   }
 }

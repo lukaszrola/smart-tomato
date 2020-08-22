@@ -80,11 +80,16 @@ class _QuestionScreenState extends State<QuestionScreen> {
                         ),
                       ),
                       TextField(
+                        autocorrect: false,
                         controller: inputController,
                         textAlign: TextAlign.center,
                         keyboardType: TextInputType.text,
-                        decoration:
-                            InputDecoration(hintText: "Type translation"),
+                        decoration: InputDecoration(
+                            hintText: "Type translation",
+                            focusColor: Theme.of(context).accentColor,
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: calculateColor(context)))),
                       )
                     ],
                   ),
