@@ -1,4 +1,4 @@
-package com.lukasz.rola.smarttomatoe
+package com.lukasz.rola.smarttomato
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

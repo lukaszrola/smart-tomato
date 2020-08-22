@@ -1,4 +1,4 @@
-# smarttomatoe
+# smarttomato
 
 Flutter version of my pomodoro
 

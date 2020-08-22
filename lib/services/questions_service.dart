@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:smarttomatoe/models/question.dart';
-import 'package:smarttomatoe/models/question_statistic.dart';
+import 'package:smarttomato/models/question.dart';
+import 'package:smarttomato/models/question_statistic.dart';
 
 class QuestionsService {
   final List<Question> _questions = [

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_duration_picker/flutter_duration_picker.dart';
-import 'package:smarttomatoe/screens/question_screen.dart';
-import 'package:smarttomatoe/screens/timer_screen.dart';
+import 'package:smarttomato/screens/question_screen.dart';
+import 'package:smarttomato/screens/timer_screen.dart';
 
 class CustomTimePicker extends StatefulWidget {
   @override

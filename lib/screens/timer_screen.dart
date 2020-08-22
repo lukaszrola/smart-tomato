@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:smarttomatoe/screens/question_screen.dart';
-import 'package:smarttomatoe/widgets/timer/count_down_timer.dart';
+import 'package:smarttomato/screens/question_screen.dart';
+import 'package:smarttomato/widgets/timer/count_down_timer.dart';
 import 'package:timer_count_down/timer_controller.dart';
 
-import 'file:///C:/workspaces/smart_tomatoe/smart_tomatoe/lib/widgets/timer/timer_buttons.dart';
+import 'file:///C:/workspaces/smart_tomato/smart_tomato/lib/widgets/timer/timer_buttons.dart';
 
 class TimerScreen extends StatelessWidget {
   final int timeInSeconds;

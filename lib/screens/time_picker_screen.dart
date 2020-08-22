@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:smarttomatoe/widgets/timer/picker/custom_time_picker.dart';
-import 'package:smarttomatoe/widgets/timer/picker/fixed_time_picker.dart';
+import 'package:smarttomato/widgets/timer/picker/custom_time_picker.dart';
+import 'package:smarttomato/widgets/timer/picker/fixed_time_picker.dart';
 
 class TimePicker extends StatelessWidget {
   @override
@@ -13,11 +13,11 @@ class TimePicker extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           leading: Image.asset(
-            "images/tomatoe.png",
+            "images/tomato.png",
             width: 50,
             height: 50,
           ),
-          title: Text("Smart Tomatoe"),
+          title: Text("Smart tomato"),
           bottom: TabBar(
             tabs: [
               Tab(

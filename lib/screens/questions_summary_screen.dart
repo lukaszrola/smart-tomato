@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:smarttomatoe/widgets/questions/summary_row.dart';
+import 'package:smarttomato/widgets/questions/summary_row.dart';
 
 class QuestionsSummary extends StatelessWidget {
   final int questions;
@@ -37,7 +37,7 @@ class QuestionsSummary extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           Image.asset(
-            "images/tomatoe.png",
+            "images/tomato.png",
           ),
           Card(
             child: Container(

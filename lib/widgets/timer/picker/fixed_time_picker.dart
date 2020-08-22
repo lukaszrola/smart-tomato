@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:smarttomatoe/screens/timer_screen.dart';
+import 'package:smarttomato/screens/timer_screen.dart';
 
 class FixedTimePicker extends StatelessWidget {
   final buttonShape = RoundedRectangleBorder(

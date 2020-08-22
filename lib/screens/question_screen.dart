@@ -2,10 +2,10 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:smarttomatoe/models/question.dart';
-import 'package:smarttomatoe/models/question_statistic.dart';
-import 'package:smarttomatoe/screens/questions_summary_screen.dart';
-import 'package:smarttomatoe/services/questions_service.dart';
+import 'package:smarttomato/models/question.dart';
+import 'package:smarttomato/models/question_statistic.dart';
+import 'package:smarttomato/screens/questions_summary_screen.dart';
+import 'package:smarttomato/services/questions_service.dart';
 
 class QuestionScreen extends StatefulWidget {
   QuestionsService questions = QuestionsService();
