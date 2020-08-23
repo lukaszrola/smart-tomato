@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:smarttomato/widgets/timer/picker/custom_time_picker.dart';
 import 'package:smarttomato/widgets/timer/picker/fixed_time_picker.dart';
 
+import 'main_drawer.dart';
+
 class TimePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -11,13 +13,10 @@ class TimePicker extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        drawer: MainDrawer(),
         appBar: AppBar(
-          leading: Image.asset(
-            "images/tomato.png",
-            width: 50,
-            height: 50,
-          ),
-          title: Text("Smart tomato"),
+//          leading: MainIcon(),
+          title: Text("Time picker"),
           bottom: TabBar(
             tabs: [
               Tab(

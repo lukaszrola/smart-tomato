@@ -2,10 +2,12 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:provider/provider.dart';
 import 'package:smarttomato/models/question.dart';
 import 'package:smarttomato/models/question_statistic.dart';
 import 'package:smarttomato/screens/questions_summary_screen.dart';
 import 'package:smarttomato/services/questions_service.dart';
+import 'package:smarttomato/services/settings_service.dart';
 
 class QuestionScreen extends StatefulWidget {
   QuestionsService questions = QuestionsService();
@@ -24,7 +26,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
   @override
   void initState() {
-    widget.questions.fetchData().then((value) {
+    var numberOfQuestions = Provider.of<SettingsService>(context, listen: false).numberOfQuestions;
+    widget.questions.fetchData(numberOfQuestions).then((value) {
       setState(() {
         question = widget.questions.next;
         answerState = _AnswerState.BEFORE_ANSWER;

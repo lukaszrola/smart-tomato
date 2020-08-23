@@ -19,9 +19,9 @@ class QuestionsService {
 
   QuestionsService() {}
 
-  Future<void> fetchData() async {
+  Future<void> fetchData(int numberOfQuestions) async {
     var response = await get(
-        "http://34.72.189.8/words/writingQuestions?numberOfQuestions=4");
+        "http://34.72.189.8/words/writingQuestions?numberOfQuestions=$numberOfQuestions");
     _questions.clear();
 
     var questions = json.decode(utf8.decode(response.bodyBytes)) as List<dynamic>;
