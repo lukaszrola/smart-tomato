@@ -5,12 +5,7 @@ import 'package:smarttomato/models/question.dart';
 import 'package:smarttomato/models/question_statistic.dart';
 
 class QuestionsService {
-  final List<Question> _questions = [
-    Question(question: "pies", answer: "dog"),
-    Question(question: "ptak", answer: "bird"),
-    Question(question: "świnka morska", answer: "guinea pig"),
-    Question(question: "kot", answer: "cat")
-  ];
+  final List<Question> _questions = [];
 
   QuestionStatistic _questionStatistic;
   List<Question> _remainingQuestions;
@@ -26,7 +21,7 @@ class QuestionsService {
 
     var questions = json.decode(utf8.decode(response.bodyBytes)) as List<dynamic>;
     questions.forEach((element) {
-      _questions.add(Question(question: element["question"], answer: element["answers"][0]));
+      _questions.add(Question(question: element["question"], answer: element["answers"].cast<String>()));
     });
 
     _remainingQuestions = _questions.toList();
@@ -38,7 +33,7 @@ class QuestionsService {
   }
 
   bool answer(String answer) {
-    var answerWasCorrect = answer == expectedAnswer;
+    var answerWasCorrect = expectedAnswers.contains(answer);
 
     if (answerWasCorrect) {
       _questionStatistic.addSuccessAttempt();
@@ -62,5 +57,5 @@ class QuestionsService {
 
   QuestionStatistic get statistic => _questionStatistic;
 
-  String get expectedAnswer => currentQuestion.answer;
+  List<String> get expectedAnswers => currentQuestion.answer;
 }

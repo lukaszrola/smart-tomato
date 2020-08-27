@@ -222,7 +222,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   style: TextStyle(fontSize: 20),
                 ),
                 Text(
-                  "${question.answer}",
+                  "${question.answer.first}",
                   style: TextStyle(
                       fontSize: 20, color: Theme.of(context).accentColor),
                 ),

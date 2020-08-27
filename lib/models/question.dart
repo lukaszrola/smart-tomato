@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class Question {
   final String question;
-  final String answer;
+  final List<String> answer;
 
   Question({@required this.question, @required this.answer});
 }
