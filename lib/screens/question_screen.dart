@@ -215,18 +215,20 @@ class _QuestionScreenState extends State<QuestionScreen> {
             SizedBox(
               height: 10,
             ),
-            Row(
-              children: [
-                Text(
-                  "Should be: ",
-                  style: TextStyle(fontSize: 20),
-                ),
-                Text(
-                  "${question.answer.first}",
-                  style: TextStyle(
-                      fontSize: 20, color: Theme.of(context).accentColor),
-                ),
-              ],
+            FittedBox(
+              child: Row(
+                children: [
+                  Text(
+                    "Should be: ",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  Text(
+                    "${question.answer.first}",
+                    style: TextStyle(
+                        fontSize: 20, color: Theme.of(context).accentColor),
+                  ),
+                ],
+              ),
             )
           ],
         ),
