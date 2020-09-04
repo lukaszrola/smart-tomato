@@ -3,30 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
-import 'package:smarttomato/models/question.dart';
-import 'package:smarttomato/models/question_statistic.dart';
-import 'package:smarttomato/screens/questions_summary_screen.dart';
-import 'package:smarttomato/services/questions_service.dart';
+import 'package:smarttomato/models/questions/question_statistic.dart';
+import 'package:smarttomato/models/questions/writing_question.dart';
+import 'package:smarttomato/screens/questions/questions_summary_screen.dart';
+import 'package:smarttomato/services/questions/writing_questions_service.dart';
 import 'package:smarttomato/services/settings_service.dart';
 
-class QuestionScreen extends StatefulWidget {
-  QuestionsService questions = QuestionsService();
+class WritingQuestionScreen extends StatefulWidget {
+  WritingQuestionsService questions = WritingQuestionsService();
 
   @override
-  _QuestionScreenState createState() => _QuestionScreenState();
+  _WritingQuestionScreenState createState() => _WritingQuestionScreenState();
 }
 
 enum _AnswerState { BEFORE_ANSWER, CORRECT_ANSWER, WRONG_ANSWER }
 
-class _QuestionScreenState extends State<QuestionScreen> {
-  Question question;
+class _WritingQuestionScreenState extends State<WritingQuestionScreen> {
+  WritingQuestion question;
   _AnswerState answerState;
   var questionStatistic;
   AudioCache player = AudioCache(prefix: 'audio/');
 
   @override
   void initState() {
-    var numberOfQuestions = Provider.of<SettingsService>(context, listen: false).numberOfQuestions;
+    var numberOfQuestions =
+        Provider.of<SettingsService>(context, listen: false).numberOfQuestions;
     widget.questions.fetchData(numberOfQuestions).then((value) {
       setState(() {
         question = widget.questions.next;
@@ -153,9 +154,11 @@ class _QuestionScreenState extends State<QuestionScreen> {
         question = widget.questions.next;
         answerState = _AnswerState.BEFORE_ANSWER;
       } else {
-        QuestionStatistic questionStatistic = widget.questions.statistic;
+        QuestionStatistic questionStatistic = widget.questions
+            .statistic as QuestionStatistic;
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (ctx) => QuestionsSummary(
+            builder: (ctx) =>
+                QuestionsSummary(
                   questions: questionStatistic.scheduledQuestions,
                   failedAttempts: questionStatistic.failedAttempts,
                   score: questionStatistic.score,
@@ -223,9 +226,11 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     style: TextStyle(fontSize: 20),
                   ),
                   Text(
-                    "${question.answer.first}",
+                    "${question.answers.first}",
                     style: TextStyle(
-                        fontSize: 20, color: Theme.of(context).accentColor),
+                        fontSize: 20, color: Theme
+                        .of(context)
+                        .accentColor),
                   ),
                 ],
               ),

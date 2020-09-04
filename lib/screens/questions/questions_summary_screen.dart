@@ -19,10 +19,6 @@ class QuestionsSummary extends StatelessWidget {
         fontSize: 30,
         fontWeight: FontWeight.bold);
 
-    final textStyle = TextStyle(
-      color: Theme.of(context).primaryColor,
-      fontSize: 20,
-    );
     return Scaffold(
       appBar: AppBar(
         title: Text("Summary"),
