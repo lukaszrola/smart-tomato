@@ -13,12 +13,14 @@ class ChoiceQuestionService extends QuestionsService<ChoiceQuestion> {
     var questions =
         json.decode(utf8.decode(response.bodyBytes)) as List<dynamic>;
 
-    return questions.map(
-      (question) => ChoiceQuestion(
-        question: question["question"],
-        correctAnswer: question["correctAnswer"],
-        variants: question["variants"].cast<String>(),
-      ),
-    );
+    return questions
+        .map(
+          (question) => ChoiceQuestion(
+            question: question["question"],
+            correctAnswer: question["correctAnswer"],
+            variants: question["variants"].cast<String>(),
+          ),
+        )
+        .toList();
   }
 }
