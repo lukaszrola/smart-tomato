@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:smarttomato/screens/questions/question_screen.dart';
 import 'package:smarttomato/widgets/timer/count_down_timer.dart';
 import 'package:smarttomato/widgets/timer/timer_buttons.dart';
 import 'package:timer_count_down/timer_controller.dart';
-
-import 'questions/writing_question_screen.dart';
 
 class TimerScreen extends StatelessWidget {
   final int timeInSeconds;
@@ -13,7 +12,7 @@ class TimerScreen extends StatelessWidget {
 
   void _onFinish(BuildContext context) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (ctx) => WritingQuestionScreen(), fullscreenDialog: true));
+        builder: (ctx) => QuestionScreen(), fullscreenDialog: true));
   }
 
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:smarttomato/screens/questions/writing_question_screen.dart';
+import 'package:smarttomato/screens/questions/question_screen.dart';
 import 'package:smarttomato/screens/timer_screen.dart';
 
 class FixedTimePicker extends StatelessWidget {
@@ -57,7 +57,7 @@ class FixedTimePicker extends StatelessWidget {
 
   Future goToQuestions(BuildContext context) {
     return Navigator.of(context).push(MaterialPageRoute(
-        builder: (ctx) => WritingQuestionScreen(), fullscreenDialog: true));
+        builder: (ctx) => QuestionScreen(), fullscreenDialog: true));
   }
 
   Widget buildButton(
