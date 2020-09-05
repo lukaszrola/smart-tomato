@@ -1,13 +1,13 @@
 import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:smarttomato/models/questions/question_statistic.dart';
 import 'package:smarttomato/models/questions/writing_question.dart';
 import 'package:smarttomato/screens/questions/questions_summary_screen.dart';
 import 'package:smarttomato/services/questions/writing_questions_service.dart';
 import 'package:smarttomato/services/settings_service.dart';
+import 'package:smarttomato/widgets/questions/question_progress_indicator.dart';
 
 class WritingQuestionScreen extends StatefulWidget {
   WritingQuestionsService questions = WritingQuestionsService();
@@ -51,23 +51,10 @@ class _WritingQuestionScreenState extends State<WritingQuestionScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Column(
-                    children: [
-                      LinearPercentIndicator(
-                        progressColor: calculateColor(context),
-                        lineHeight: 20,
-                        percent: questionStatistic.successAttempts /
-                            questionStatistic.scheduledQuestions,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                          "${questionStatistic.successAttempts}/${questionStatistic.scheduledQuestions}")
-                    ],
-                  ),
+                QuestionProgressIndicator(
+                  color: calculateColor(context),
+                  successAttempts: questionStatistic.successAttempts,
+                  scheduledQuestions: questionStatistic.scheduledQuestions,
                 ),
                 Container(
                   padding: EdgeInsets.all(10),
