@@ -8,6 +8,7 @@ import 'package:smarttomato/screens/questions/questions_summary_screen.dart';
 import 'package:smarttomato/services/questions/writing_questions_service.dart';
 import 'package:smarttomato/services/settings_service.dart';
 import 'package:smarttomato/widgets/questions/question_progress_indicator.dart';
+import 'package:smarttomato/widgets/questions/question_text.dart';
 
 class WritingQuestionScreen extends StatefulWidget {
   WritingQuestionsService questions = WritingQuestionsService();
@@ -61,15 +62,8 @@ class _WritingQuestionScreenState extends State<WritingQuestionScreen> {
                   child: Column(
                     children: [
                       FittedBox(
-                        child: Text(
-                          question.question,
-                          style: TextStyle(
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                              color: calculateColor(context)),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
+                          child: QuestionText(
+                              question.question, calculateColor(context))),
                       TextField(
                         autocorrect: false,
                         controller: inputController,

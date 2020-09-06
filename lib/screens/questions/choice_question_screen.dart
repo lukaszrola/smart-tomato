@@ -5,6 +5,7 @@ import 'package:smarttomato/models/questions/question_statistic.dart';
 import 'package:smarttomato/services/questions/choice_question_service.dart';
 import 'package:smarttomato/services/settings_service.dart';
 import 'package:smarttomato/widgets/questions/question_progress_indicator.dart';
+import 'package:smarttomato/widgets/questions/question_text.dart';
 
 class ChoiceQuestionScreen extends StatefulWidget {
   @override
@@ -39,17 +40,17 @@ class _ChoiceQuestionScreenState extends State<ChoiceQuestionScreen> {
               child: CircularProgressIndicator(),
             )
           : Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          QuestionProgressIndicator(
-            color: Theme
-                .of(context)
-                .accentColor,
-            successAttempts: _questionStatistic.successAttempts,
-            scheduledQuestions: _questionStatistic.scheduledQuestions,
-          ),
-          Text(_currentQuestion.question)],
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                QuestionProgressIndicator(
+                  color: Theme.of(context).accentColor,
+                  successAttempts: _questionStatistic.successAttempts,
+                  scheduledQuestions: _questionStatistic.scheduledQuestions,
+                ),
+                QuestionText(
+                    _currentQuestion.question, Theme.of(context).accentColor)
+              ],
             ),
     );
   }
