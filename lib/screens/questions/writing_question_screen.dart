@@ -7,8 +7,10 @@ import 'package:smarttomato/screens/questions/questions_summary_screen.dart';
 import 'package:smarttomato/services/questions/sound_player.dart';
 import 'package:smarttomato/services/questions/writing_questions_service.dart';
 import 'package:smarttomato/services/settings_service.dart';
+import 'package:smarttomato/widgets/questions/fail_snack_bar.dart';
 import 'package:smarttomato/widgets/questions/question_progress_indicator.dart';
 import 'package:smarttomato/widgets/questions/question_text.dart';
+import 'package:smarttomato/widgets/questions/success_snack_bar.dart';
 
 class WritingQuestionScreen extends StatefulWidget {
   WritingQuestionsService questions = WritingQuestionsService();
@@ -104,7 +106,11 @@ class _WritingQuestionScreenState extends State<WritingQuestionScreen> {
 
     colorText(success);
     await playSound(success);
-    var snackBar = showSnackBar(ctx, success, context);
+    var snackBar = success
+        ? SuccessSnackBar.show(ctx)
+        : FailSnackBar.show(
+            context: ctx, expectedAnswer: question.answers.first);
+
     await snackBar.closed;
 
     resolveNextQuestion(context);
@@ -117,13 +123,6 @@ class _WritingQuestionScreenState extends State<WritingQuestionScreen> {
     });
   }
 
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(
-      BuildContext ctx, bool success, BuildContext context) {
-    return Scaffold.of(ctx).showSnackBar(
-      success ? successSnackBar() : failSnackBar(context),
-    );
-  }
-
   Future playSound(bool success) async {
     await success ? SoundPlayer.successSound() : SoundPlayer.failSound();
   }
@@ -134,8 +133,8 @@ class _WritingQuestionScreenState extends State<WritingQuestionScreen> {
         question = widget.questions.next;
         answerState = _AnswerState.BEFORE_ANSWER;
       } else {
-        QuestionStatistic questionStatistic = widget.questions
-            .statistic as QuestionStatistic;
+        QuestionStatistic questionStatistic =
+        widget.questions.statistic as QuestionStatistic;
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (ctx) =>
                 QuestionsSummary(
@@ -146,79 +145,6 @@ class _WritingQuestionScreenState extends State<WritingQuestionScreen> {
             fullscreenDialog: true));
       }
     });
-  }
-
-  SnackBar successSnackBar() {
-    return SnackBar(
-      backgroundColor: Colors.green,
-      action: SnackBarAction(
-          label: "OK",
-          onPressed: () {
-            setState(() {});
-          }),
-      content: Row(
-        children: <Widget>[
-          Icon(Icons.done),
-          SizedBox(
-            width: 20,
-          ),
-          Text(
-            "Correct answer!",
-            style: TextStyle(fontSize: 20),
-          ),
-        ],
-      ),
-    );
-  }
-
-  SnackBar failSnackBar(BuildContext context) {
-    return SnackBar(
-      backgroundColor: Theme.of(context).errorColor,
-      action: SnackBarAction(
-        label: "OK",
-        onPressed: () {},
-      ),
-      content: Container(
-        height: 70,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Icon(Icons.error),
-                SizedBox(
-                  width: 20,
-                ),
-                Text(
-                  "Wrong answer!",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            FittedBox(
-              child: Row(
-                children: [
-                  Text(
-                    "Should be: ",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Text(
-                    "${question.answers.first}",
-                    style: TextStyle(
-                        fontSize: 20, color: Theme
-                        .of(context)
-                        .accentColor),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
   }
 
   Color calculateColor(BuildContext context) {
