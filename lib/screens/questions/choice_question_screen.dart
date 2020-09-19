@@ -45,41 +45,50 @@ class _ChoiceQuestionScreenState extends State<ChoiceQuestionScreen> {
       ),
       body: _currentQuestion == null
           ? Center(
-        child: CircularProgressIndicator(),
-      )
+              child: CircularProgressIndicator(),
+            )
           : Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          QuestionProgressIndicator(
-            color: Theme
-                .of(context)
-                .accentColor,
-            successAttempts: _questionStatistic.successAttempts,
-            scheduledQuestions: _questionStatistic.scheduledQuestions,
-          ),
-          QuestionText(
-              _currentQuestion.question, Theme
-              .of(context)
-              .accentColor),
-          ..._currentQuestion.variants.map((variant) =>
-              Container(
-                width: 45,
-                child: RaisedButton(
-                  onPressed: () {},
-                  color: Theme
-                      .of(context)
-                      .accentColor,
-                  child: Text(
-                    variant,
-                    style: buttonTextStyle,
-                  ),
-                  shape: buttonShape,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                QuestionProgressIndicator(
+                  color: Theme.of(context).accentColor,
+                  successAttempts: _questionStatistic.successAttempts,
+                  scheduledQuestions: _questionStatistic.scheduledQuestions,
                 ),
-              ),
-          )
-        ],
-      ),
+                Flexible(
+                  flex: 4,
+                  child: QuestionText(
+                      _currentQuestion.question, Theme.of(context).accentColor),
+                ),
+                Flexible(
+                  flex: 5,
+                  fit: FlexFit.tight,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: _currentQuestion.variants
+                          .map(
+                            (variant) => Container(
+                              child: RaisedButton(
+                                onPressed: () {},
+                                color: Theme.of(context).accentColor,
+                                child: Text(
+                                  variant,
+                                  style: buttonTextStyle,
+                                ),
+                                shape: buttonShape,
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }
