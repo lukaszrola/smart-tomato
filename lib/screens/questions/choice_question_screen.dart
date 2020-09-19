@@ -13,6 +13,14 @@ class ChoiceQuestionScreen extends StatefulWidget {
 }
 
 class _ChoiceQuestionScreenState extends State<ChoiceQuestionScreen> {
+  final buttonShape = RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(
+      Radius.circular(20),
+    ),
+  );
+
+  final buttonTextStyle = TextStyle(fontSize: 20);
+
   ChoiceQuestionService _questionsService = ChoiceQuestionService();
   ChoiceQuestion _currentQuestion;
   QuestionStatistic _questionStatistic;
@@ -37,21 +45,41 @@ class _ChoiceQuestionScreenState extends State<ChoiceQuestionScreen> {
       ),
       body: _currentQuestion == null
           ? Center(
-              child: CircularProgressIndicator(),
-            )
+        child: CircularProgressIndicator(),
+      )
           : Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                QuestionProgressIndicator(
-                  color: Theme.of(context).accentColor,
-                  successAttempts: _questionStatistic.successAttempts,
-                  scheduledQuestions: _questionStatistic.scheduledQuestions,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          QuestionProgressIndicator(
+            color: Theme
+                .of(context)
+                .accentColor,
+            successAttempts: _questionStatistic.successAttempts,
+            scheduledQuestions: _questionStatistic.scheduledQuestions,
+          ),
+          QuestionText(
+              _currentQuestion.question, Theme
+              .of(context)
+              .accentColor),
+          ..._currentQuestion.variants.map((variant) =>
+              Container(
+                width: 45,
+                child: RaisedButton(
+                  onPressed: () {},
+                  color: Theme
+                      .of(context)
+                      .accentColor,
+                  child: Text(
+                    variant,
+                    style: buttonTextStyle,
+                  ),
+                  shape: buttonShape,
                 ),
-                QuestionText(
-                    _currentQuestion.question, Theme.of(context).accentColor)
-              ],
-            ),
+              ),
+          )
+        ],
+      ),
     );
   }
 }
