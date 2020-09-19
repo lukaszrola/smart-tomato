@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:smarttomato/models/questions/choice_question.dart';
 import 'package:smarttomato/models/questions/question_statistic.dart';
 import 'package:smarttomato/services/questions/choice_question_service.dart';
+import 'package:smarttomato/services/questions/sound_player.dart';
 import 'package:smarttomato/services/settings_service.dart';
 import 'package:smarttomato/widgets/questions/question_progress_indicator.dart';
 import 'package:smarttomato/widgets/questions/question_text.dart';
@@ -73,7 +74,13 @@ class _ChoiceQuestionScreenState extends State<ChoiceQuestionScreen> {
                           .map(
                             (variant) => Container(
                               child: RaisedButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  var success =
+                                      await _questionsService.answer(variant);
+                                  await success
+                                      ? SoundPlayer.successSound()
+                                      : SoundPlayer.failSound();
+                                },
                                 color: Theme.of(context).accentColor,
                                 child: Text(
                                   variant,

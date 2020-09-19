@@ -9,6 +9,6 @@ class ChoiceQuestion extends Question {
 
   @override
   bool checkIfAnswerIsCorrect(String answer) {
-    throw correctAnswer == answer;
+    return correctAnswer == answer;
   }
 }

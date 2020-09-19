@@ -1,10 +1,10 @@
-import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:smarttomato/models/questions/question_statistic.dart';
 import 'package:smarttomato/models/questions/writing_question.dart';
 import 'package:smarttomato/screens/questions/questions_summary_screen.dart';
+import 'package:smarttomato/services/questions/sound_player.dart';
 import 'package:smarttomato/services/questions/writing_questions_service.dart';
 import 'package:smarttomato/services/settings_service.dart';
 import 'package:smarttomato/widgets/questions/question_progress_indicator.dart';
@@ -23,7 +23,6 @@ class _WritingQuestionScreenState extends State<WritingQuestionScreen> {
   WritingQuestion question;
   _AnswerState answerState;
   var questionStatistic;
-  AudioCache player = AudioCache(prefix: 'audio/');
 
   @override
   void initState() {
@@ -126,7 +125,7 @@ class _WritingQuestionScreenState extends State<WritingQuestionScreen> {
   }
 
   Future playSound(bool success) async {
-    await player.play(success ? 'success.mp3' : 'fail.mp3');
+    await success ? SoundPlayer.successSound() : SoundPlayer.failSound();
   }
 
   void resolveNextQuestion(BuildContext context) {
