@@ -5,8 +5,12 @@ import 'package:smarttomato/models/questions/question_statistic.dart';
 import 'package:smarttomato/services/questions/choice_question_service.dart';
 import 'package:smarttomato/services/questions/sound_player.dart';
 import 'package:smarttomato/services/settings_service.dart';
+import 'package:smarttomato/widgets/questions/fail_snack_bar.dart';
 import 'package:smarttomato/widgets/questions/question_progress_indicator.dart';
 import 'package:smarttomato/widgets/questions/question_text.dart';
+import 'package:smarttomato/widgets/questions/success_snack_bar.dart';
+
+import 'questions_summary_screen.dart';
 
 class ChoiceQuestionScreen extends StatefulWidget {
   @override
@@ -66,27 +70,39 @@ class _ChoiceQuestionScreenState extends State<ChoiceQuestionScreen> {
                   flex: 5,
                   fit: FlexFit.tight,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 40),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: _currentQuestion.variants
                           .map(
-                            (variant) => Container(
-                              child: RaisedButton(
-                                onPressed: () async {
-                                  var success =
-                                      await _questionsService.answer(variant);
-                                  await success
-                                      ? SoundPlayer.successSound()
-                                      : SoundPlayer.failSound();
-                                },
-                                color: Theme.of(context).accentColor,
-                                child: Text(
-                                  variant,
-                                  style: buttonTextStyle,
+                            (variant) => Builder(
+                              builder: (ctx) => Container(
+                                child: RaisedButton(
+                                  onPressed: () async {
+                                    var success =
+                                        await _questionsService.answer(variant);
+                                    await success
+                                        ? SoundPlayer.successSound()
+                                        : SoundPlayer.failSound();
+                                    var snackBar = success
+                                        ? SuccessSnackBar.show(ctx)
+                                        : FailSnackBar.show(
+                                            context: ctx,
+                                            expectedAnswer:
+                                                _currentQuestion.correctAnswer);
+
+                                    await snackBar.closed;
+
+                                    _resolveNextQuestion(context);
+                                  },
+                                  color: Theme.of(context).accentColor,
+                                  child: Text(
+                                    variant,
+                                    style: buttonTextStyle,
+                                  ),
+                                  shape: buttonShape,
                                 ),
-                                shape: buttonShape,
                               ),
                             ),
                           )
@@ -94,8 +110,28 @@ class _ChoiceQuestionScreenState extends State<ChoiceQuestionScreen> {
                     ),
                   ),
                 ),
+                Flexible(
+                  flex: 1,
+                  child: Container(),
+                )
               ],
             ),
     );
+  }
+
+  void _resolveNextQuestion(BuildContext context) {
+    setState(() {
+      if (_questionsService.hasNext) {
+        _currentQuestion = _questionsService.next;
+      } else {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (ctx) => QuestionsSummary(
+                  questions: _questionStatistic.scheduledQuestions,
+                  failedAttempts: _questionStatistic.failedAttempts,
+                  score: _questionStatistic.score,
+                ),
+            fullscreenDialog: true));
+      }
+    });
   }
 }
