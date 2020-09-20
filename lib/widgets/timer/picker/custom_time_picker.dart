@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_duration_picker/flutter_duration_picker.dart';
-import 'package:smarttomato/screens/question_screen.dart';
+import 'package:smarttomato/screens/questions/question_screen.dart';
 import 'package:smarttomato/screens/timer_screen.dart';
 
 class CustomTimePicker extends StatefulWidget {
@@ -50,9 +50,10 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (ctx) => _duration.inSeconds > 0 ? TimerScreen(_duration.inSeconds) : QuestionScreen(),
-                      fullscreenDialog: true
-                      ),
+                          builder: (ctx) => _duration.inSeconds > 0
+                              ? TimerScreen(_duration.inSeconds)
+                              : QuestionScreen(),
+                          fullscreenDialog: true),
                     );
                   },
                 ),
