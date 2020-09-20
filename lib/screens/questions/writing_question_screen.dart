@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:smarttomato/models/questions/answer_state.dart';
 import 'package:smarttomato/models/questions/question_statistic.dart';
 import 'package:smarttomato/models/questions/writing_question.dart';
 import 'package:smarttomato/screens/questions/questions_summary_screen.dart';
@@ -19,11 +20,9 @@ class WritingQuestionScreen extends StatefulWidget {
   _WritingQuestionScreenState createState() => _WritingQuestionScreenState();
 }
 
-enum _AnswerState { BEFORE_ANSWER, CORRECT_ANSWER, WRONG_ANSWER }
-
 class _WritingQuestionScreenState extends State<WritingQuestionScreen> {
   WritingQuestion question;
-  _AnswerState answerState;
+  AnswerState answerState;
   var questionStatistic;
 
   @override
@@ -33,7 +32,7 @@ class _WritingQuestionScreenState extends State<WritingQuestionScreen> {
     widget.questions.fetchData(numberOfQuestions).then((value) {
       setState(() {
         question = widget.questions.next;
-        answerState = _AnswerState.BEFORE_ANSWER;
+        answerState = AnswerState.BEFORE_ANSWER;
         questionStatistic = widget.questions.statistic;
       });
     });
@@ -119,7 +118,7 @@ class _WritingQuestionScreenState extends State<WritingQuestionScreen> {
   void colorText(bool success) {
     setState(() {
       answerState =
-          success ? _AnswerState.CORRECT_ANSWER : _AnswerState.WRONG_ANSWER;
+      success ? AnswerState.CORRECT_ANSWER : AnswerState.WRONG_ANSWER;
     });
   }
 
@@ -131,7 +130,7 @@ class _WritingQuestionScreenState extends State<WritingQuestionScreen> {
     setState(() {
       if (widget.questions.hasNext) {
         question = widget.questions.next;
-        answerState = _AnswerState.BEFORE_ANSWER;
+        answerState = AnswerState.BEFORE_ANSWER;
       } else {
         QuestionStatistic questionStatistic =
         widget.questions.statistic as QuestionStatistic;
@@ -149,10 +148,12 @@ class _WritingQuestionScreenState extends State<WritingQuestionScreen> {
 
   Color calculateColor(BuildContext context) {
     switch (answerState) {
-      case _AnswerState.CORRECT_ANSWER:
+      case AnswerState.CORRECT_ANSWER:
         return Colors.green;
-      case _AnswerState.WRONG_ANSWER:
-        return Theme.of(context).errorColor;
+      case AnswerState.WRONG_ANSWER:
+        return Theme
+            .of(context)
+            .errorColor;
       default:
         return Theme.of(context).accentColor;
     }

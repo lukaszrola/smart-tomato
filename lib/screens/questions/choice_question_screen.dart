@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smarttomato/models/questions/answer_state.dart';
 import 'package:smarttomato/models/questions/choice_question.dart';
 import 'package:smarttomato/models/questions/question_statistic.dart';
 import 'package:smarttomato/services/questions/choice_question_service.dart';
@@ -29,6 +30,8 @@ class _ChoiceQuestionScreenState extends State<ChoiceQuestionScreen> {
   ChoiceQuestionService _questionsService = ChoiceQuestionService();
   ChoiceQuestion _currentQuestion;
   QuestionStatistic _questionStatistic;
+  AnswerState _answerState;
+  String _selectedAnswer;
 
   @override
   void initState() {
@@ -38,6 +41,8 @@ class _ChoiceQuestionScreenState extends State<ChoiceQuestionScreen> {
       setState(() {
         _currentQuestion = _questionsService.next;
         _questionStatistic = _questionsService.statistic;
+        _answerState = AnswerState.BEFORE_ANSWER;
+        _selectedAnswer = null;
       });
     });
   }
@@ -57,14 +62,14 @@ class _ChoiceQuestionScreenState extends State<ChoiceQuestionScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 QuestionProgressIndicator(
-                  color: Theme.of(context).accentColor,
+                  color: _calculateColor(context),
                   successAttempts: _questionStatistic.successAttempts,
                   scheduledQuestions: _questionStatistic.scheduledQuestions,
                 ),
                 Flexible(
                   flex: 4,
                   child: QuestionText(
-                      _currentQuestion.question, Theme.of(context).accentColor),
+                      _currentQuestion.question, _calculateColor(context)),
                 ),
                 Flexible(
                   flex: 5,
@@ -80,23 +85,11 @@ class _ChoiceQuestionScreenState extends State<ChoiceQuestionScreen> {
                               builder: (ctx) => Container(
                                 child: RaisedButton(
                                   onPressed: () async {
-                                    var success =
-                                        await _questionsService.answer(variant);
-                                    await success
-                                        ? SoundPlayer.successSound()
-                                        : SoundPlayer.failSound();
-                                    var snackBar = success
-                                        ? SuccessSnackBar.show(ctx)
-                                        : FailSnackBar.show(
-                                            context: ctx,
-                                            expectedAnswer:
-                                                _currentQuestion.correctAnswer);
-
-                                    await snackBar.closed;
-
-                                    _resolveNextQuestion(context);
+                                    await _answer(variant, ctx);
                                   },
-                                  color: Theme.of(context).accentColor,
+                                  color: _selectedAnswer != variant ? Theme
+                                      .of(context)
+                                      .accentColor : _calculateColor(context),
                                   child: Text(
                                     variant,
                                     style: buttonTextStyle,
@@ -115,17 +108,54 @@ class _ChoiceQuestionScreenState extends State<ChoiceQuestionScreen> {
                   child: Container(),
                 )
               ],
-            ),
+      ),
     );
+  }
+
+  Future _answer(String variant, BuildContext ctx) async {
+    var success =
+    await _questionsService.answer(variant);
+
+    await success
+        ? SoundPlayer.successSound()
+        : SoundPlayer.failSound();
+
+    _updateAnswerState(variant, success);
+
+    var snackBar = _showSnackBar(success, ctx);
+    await snackBar.closed;
+
+    _resolveNextQuestion(ctx);
+  }
+
+  void _updateAnswerState(String variant, bool success) {
+    setState(() {
+      _selectedAnswer = variant;
+      _answerState =
+      success ? AnswerState.CORRECT_ANSWER : AnswerState.WRONG_ANSWER;
+    });
+  }
+
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> _showSnackBar(
+      bool success, BuildContext ctx) {
+    return success
+        ? SuccessSnackBar.show(ctx)
+        : FailSnackBar.show(
+        context: ctx,
+        expectedAnswer:
+        _currentQuestion.correctAnswer);
   }
 
   void _resolveNextQuestion(BuildContext context) {
     setState(() {
       if (_questionsService.hasNext) {
         _currentQuestion = _questionsService.next;
+        _answerState = AnswerState.BEFORE_ANSWER;
+        _selectedAnswer = null;
       } else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (ctx) => QuestionsSummary(
+            builder: (ctx) =>
+                QuestionsSummary(
                   questions: _questionStatistic.scheduledQuestions,
                   failedAttempts: _questionStatistic.failedAttempts,
                   score: _questionStatistic.score,
@@ -133,5 +163,20 @@ class _ChoiceQuestionScreenState extends State<ChoiceQuestionScreen> {
             fullscreenDialog: true));
       }
     });
+  }
+
+  Color _calculateColor(BuildContext context) {
+    switch (_answerState) {
+      case AnswerState.CORRECT_ANSWER:
+        return Colors.green;
+      case AnswerState.WRONG_ANSWER:
+        return Theme
+            .of(context)
+            .errorColor;
+      default:
+        return Theme
+            .of(context)
+            .accentColor;
+    }
   }
 }
